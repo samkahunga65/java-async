@@ -1,9 +1,8 @@
 package org.example;
 
-import com.google.common.util.concurrent.ListenableFuture;
-import com.google.common.util.concurrent.ListeningExecutorService;
-import com.google.common.util.concurrent.MoreExecutors;
+import com.google.common.util.concurrent.*;
 
+import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
@@ -24,6 +23,19 @@ public class Main {
             }
 
         });
+        Executor executor =  Executors.newSingleThreadExecutor();
+        Futures.addCallback(callback, new FutureCallback<Integer>() {
+            @Override
+            public void onSuccess(Integer result) {
+                System.out.println(result);
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+                System.out.println("ll");
+            }
+        },executor);
+
         lExecService.shutdown();
     }
 }
